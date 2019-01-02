@@ -143,4 +143,5 @@ int main()
 	OptionPrice = europeanOption.NPV();
 	std::cout << "C (with jump) = " << OptionPrice << std::endl;
 	system("pause");
+
 }
