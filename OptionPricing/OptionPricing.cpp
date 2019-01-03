@@ -144,4 +144,79 @@ int main()
 	std::cout << "C (with jump) = " << OptionPrice << std::endl;
 	system("pause");
 
+	//Contruct the pricing engin object and assign it to the pricing engine for the option
+	europeanOption.setPricingEngine(
+		boost::shared_ptr<PricingEngine>(
+			new MCEuropeanEngine<PseudoRandom>(
+				bsmProcess, //process
+				10, //timeSteps
+				Null<Size>(),//timeStepsPerYear
+				false, //brownianBridge
+				false, //antitheticVariate
+				10000, //requriedSamples
+				Null<Real>(), //requiredTolerance
+				Null<Size>(), //maxSamples
+				SeedGenerator::instance().get() //seed
+				)
+			)
+	);
+	
+	//write column headings
+	Size widths[] = { 25, 25, 25 };
+	std::cout << std::setw(widths[0]) << std::left << "MC Samples"
+		<< std::setw(widths[1]) << std::left << "Call price estimate"
+		<< std::setw(widths[2]) << std::left << "Err of estimate"
+		<< std::endl;
+
+	//Output the result to the output window
+	std::cout << std::setw(widths[0]) << std::left << 10000
+		<< std::setw(widths[1]) << std::left << europeanOption.NPV()
+		<< std::setw(widths[2]) << std::left << europeanOption.errorEstimate()
+		<< std::endl;
+
+	//Contruct the pricing engin object and assign it to the pricing engine for the option
+	europeanOption.setPricingEngine(
+		boost::shared_ptr<PricingEngine>(
+			new MCEuropeanEngine<PseudoRandom>(
+				bsmProcess, //process
+				10, //timeSteps
+				Null<Size>(),//timeStepsPerYear
+				false, //brownianBridge
+				false, //antitheticVariate
+				100000, //requriedSamples
+				Null<Real>(), //requiredTolerance
+				Null<Size>(), //maxSamples
+				SeedGenerator::instance().get() //seed
+				)
+			)
+	);
+
+	//Output the result to the output window
+	std::cout << std::setw(widths[0]) << std::left << 100000
+		<< std::setw(widths[1]) << std::left << europeanOption.NPV()
+		<< std::setw(widths[2]) << std::left << europeanOption.errorEstimate()
+		<< std::endl;
+
+	//Contruct the pricing engin object and assign it to the pricing engine for the option
+	europeanOption.setPricingEngine(
+		boost::shared_ptr<PricingEngine>(
+			new MCEuropeanEngine<PseudoRandom>(
+				bsmProcess, //process
+				10, //timeSteps
+				Null<Size>(),//timeStepsPerYear
+				false, //brownianBridge
+				false, //antitheticVariate
+				1000000, //requriedSamples
+				Null<Real>(), //requiredTolerance
+				Null<Size>(), //maxSamples
+				SeedGenerator::instance().get() //seed
+				)
+			)
+	);
+
+	//Output the result to the output window
+	std::cout << std::setw(widths[0]) << std::left << 1000000
+		<< std::setw(widths[1]) << std::left << europeanOption.NPV()
+		<< std::setw(widths[2]) << std::left << europeanOption.errorEstimate()
+		<< std::endl;
 }
